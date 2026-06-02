@@ -40,6 +40,12 @@ CREATE TABLE employee_role (
     REFERENCES role (role_id)
 );
 
+CREATE TABLE role (
+	role_id INT PRIMARY KEY,
+    role_name VARCHAR(50) NOT NULL,
+    is_admin BOOLEAN
+);
+
 CREATE TABLE attendance (
 	attendance_id INT PRIMARY KEY,
     employee_id INT,
@@ -87,4 +93,82 @@ CREATE TABLE payroll (
     CONSTRAINT fk_payroll_position
     FOREIGN KEY (position_id)
     REFERENCES position (position_id)
+);
+
+CREATE TABLE leave_request (
+	leave_request_id INT PRIMARY KEY,
+    leave_type_id INT,
+    employee_id INT,
+    leave_status_id INT,
+    date_start DATE NOT NULL,
+    date_end DATE NOT NULL,
+    is_paid BOOLEAN NOT NULL,
+    approver_name VARCHAR(50) NOT NULL,
+    leave_message VARCHAR(255),
+    
+    CONSTRAINT fk_leave_request_leave_type
+    FOREIGN KEY (leave_type_id)
+    REFERENCES leave_type (leave_type_id),
+    
+    CONSTRAINT fk_leave_request_employee
+    FOREIGN KEY (employee_id)
+    REFERENCES employee (employee_id),
+    
+    CONSTRAINT fk_leave_request_leave_status
+    FOREIGN KEY (leave_status_id)
+    REFERENCES leave_status (leave_status_id)
+);
+
+CREATE TABLE role_permissions (
+	role_id_permissions_id INT PRIMARY KEY,
+    role_id INT,
+    permissions_id INT,
+    
+    CONSTRAINT fk_role_role_permissions
+    FOREIGN KEY (role_id)
+    REFERENCES role (role_id),
+    
+    CONSTRAINT fk_permissions_role_permissions
+    FOREIGN KEY (permissions_id)
+    REFERENCES permissions (permissions_id)
+);
+
+CREATE TABLE permissions (
+	permissions_id INT PRIMARY KEY,
+    access VARCHAR(50) NOT NULL,
+    record_type ENUM NOT NULL
+);
+
+CREATE TABLE overtime (
+	overtime_id INT PRIMARY KEY,
+    employee_id INT,
+    supervisor_id INT,
+    attendance_id INT,
+    overtime_hours INT NOT NULL,
+    approval_status ENUM ("pending", "approved", "denied") NOT NULL,
+    
+    CONSTRAINT fk_employee_overtime
+    FOREIGN KEY (employee_id)
+    REFERENCES employee (employee_id),
+    
+    CONSTRAINT fk_supervisor_overtime
+    FOREIGN KEY (supervisor_id)
+    REFERENCES employee (supervisor_id),
+    
+    CONSTRAINT fk_attendance_overtime
+    FOREIGN KEY (attendance_id)
+    REFERENCES attendance (attendance_id)
+);
+
+CREATE TABLE bracket (
+	bracket_id INT PRIMARY KEY,
+    statutory_id INT,
+    minimum DECIMAL(10,2) NOT NULL,
+    maximum DECIMAL(10,2) NOT NULL,
+    rate DECIMAL(10,2) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    
+    CONSTRAINT fk_statutory_bracket
+    FOREIGN KEY (statutory_id)
+    REFERENCES statutory (statutory_id)
 );
