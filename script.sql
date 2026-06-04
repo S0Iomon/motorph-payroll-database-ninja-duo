@@ -24,8 +24,7 @@ CREATE TABLE role (
 CREATE TABLE permissions (
 	permissions_id INT PRIMARY KEY,
     access VARCHAR(50) NOT NULL,
-    record_type VARCHAR (50) NOT NULL,
-    CHECK (record_type IN ('Employee','Payroll','Attendance'))
+    record_type ENUM ('Employee','Payroll','Attendance', 'Department', 'Position') NOT NULL
 );
 
 CREATE TABLE leave_status (
@@ -85,8 +84,51 @@ CREATE TABLE employee (
 
     CONSTRAINT fk_employee_position
         FOREIGN KEY (position_id)
-        REFERENCES position (position_id)
+        REFERENCES position (position_id),
+        
+	CONSTRAINT fk_employee_address
+        FOREIGN KEY (address_id)
+        REFERENCES address (address_id),
+        
+	CONSTRAINT fk_employee_government_info
+        FOREIGN KEY (government_info_id)
+        REFERENCES government_info (government_info_id)
 );
+
+CREATE TABLE status (
+	status_id INT PRIMARY KEY,
+    employee_id INT,
+    status_name ENUM ('regular', 'probationary', 'resigned', 'dismissed')
+);
+
+CREATE TABLE government_info (
+	government_info_id INT PRIMARY KEY,
+    sss_number INT NOT NULL,
+    phil_health_number INT NOT NULL,
+    tin_number INT NOT NULL,
+    pag_ibig_number INT NOT NULL
+);
+
+CREATE TABLE address (
+	address_id INT PRIMARY KEY,
+    building VARCHAR(255) NULL,
+    street VARCHAR(50) NOT NULL,
+    barangay VARCHAR(50) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    province VARCHAR(50) NOT NULL,
+    zip_code INT NOT NULL
+);
+
+CREATE TABLE employee_address (
+	employee_id_address_id INT PRIMARY KEY,
+    employee_id INT,
+    address_id INT,
+    
+    CONSTRAINT fk_employee_address_employee
+		FOREIGN KEY (employee_id)
+        REFERENCES employee (employee_id)
+);
+
 CREATE TABLE attendance (
 	attendance_id INT PRIMARY KEY,
     employee_id INT,
@@ -131,8 +173,7 @@ CREATE TABLE overtime (
     supervisor_id INT,
     attendance_id INT,
     overtime_hours INT NOT NULL,
-    approval_status VARCHAR(20)
-    CHECK (approval_status IN ('pending', 'approved', 'denied')),
+    approval_status ENUM ('pending', 'approved', 'denied'),
     
     CONSTRAINT fk_employee_overtime
     FOREIGN KEY (employee_id)
@@ -270,7 +311,7 @@ CREATE TABLE statutory (
     statutory_id INT PRIMARY KEY,
     bracket_id INT, 
     payroll_id INT,
-    deduction_type VARCHAR(50) NOT NULL,
+    deduction_type ENUM ('SSS', 'PhilHealth', 'Withholding Tax', 'PAG-IBIG') NOT NULL,
     amount DECIMAL(10,2),
 
 	CONSTRAINT fk_statutory_bracket
@@ -288,7 +329,6 @@ CREATE TABLE bracket (
     minimum DECIMAL(10,2) NOT NULL,
     maximum DECIMAL(10,2) NOT NULL,
     rate DECIMAL(10,2) NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
     
     CONSTRAINT fk_statutory_bracket
     FOREIGN KEY (statutory_id)
@@ -322,3 +362,4 @@ CREATE TABLE role_permissions (
     FOREIGN KEY (permissions_id)
     REFERENCES permissions (permissions_id)
 );
+
