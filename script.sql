@@ -8,7 +8,7 @@ CREATE TABLE position (
     department_id INT,
     position_name VARCHAR(50) NOT NULL,
     description VARCHAR(255) NULL,
-    hourly_rate DECIMAL(10 , 2) NOT NULL,
+    hourly_rate DECIMAL(10, 2) NOT NULL,
     
     CONSTRAINT fk_position_department
     FOREIGN KEY (department_id)
@@ -18,14 +18,14 @@ CREATE TABLE position (
 CREATE TABLE role (
 	role_id INT PRIMARY KEY,
     role_name VARCHAR(50) NOT NULL,
-    is_admin BIT
+    is_admin BOOLEAN
 );
 
 CREATE TABLE permissions (
 	permissions_id INT PRIMARY KEY,
     access VARCHAR(50) NOT NULL,
-    record_type VARCHAR (50) NOT NULL
-    CHECK (record_type IN ('Employee','Payroll','Attendance')),
+    record_type VARCHAR (50) NOT NULL,
+    CHECK (record_type IN ('Employee','Payroll','Attendance'))
 );
 
 CREATE TABLE leave_status (
@@ -48,7 +48,7 @@ CREATE TABLE pay_period (
 CREATE TABLE benefit_type (
     benefit_type_id INT PRIMARY KEY,
     benefit_type VARCHAR(50) NOT NULL,
-    amount DECIMAL(10,2)
+    amount DECIMAL(10, 2)
 );
 
 CREATE TABLE employee (
@@ -65,15 +65,19 @@ CREATE TABLE employee (
 
     CONSTRAINT fk_employee_supervisor
         FOREIGN KEY (supervisor_id)
-        REFERENCES employee(employee_id),
+        REFERENCES employee (employee_id),
 
     CONSTRAINT fk_employee_department
         FOREIGN KEY (department_id)
-        REFERENCES department(department_id),
+        REFERENCES department (department_id),
 
     CONSTRAINT fk_employee_pay_period
         FOREIGN KEY (pay_period_id)
-        REFERENCES pay_period(pay_period_id),
+        REFERENCES pay_period (pay_period_id),
+        
+    CONSTRAINT fk_employee_benefits
+        FOREIGN KEY (benefit_id)
+        REFERENCES benefits (benefit_id),
 
     CONSTRAINT fk_employee_role
         FOREIGN KEY (role_id)
@@ -81,7 +85,7 @@ CREATE TABLE employee (
 
     CONSTRAINT fk_employee_position
         FOREIGN KEY (position_id)
-        REFERENCES position(position_id)
+        REFERENCES position (position_id)
 );
 CREATE TABLE attendance (
 	attendance_id INT PRIMARY KEY,
@@ -170,7 +174,7 @@ CREATE TABLE benefits (
     benefit_id INT PRIMARY KEY, 
     employee_id INT, 
     benefit_type_id INT, 
-    amount DECIMAL(10,2), 
+    amount DECIMAL(10, 2), 
     
     CONSTRAINT fk_benefits_employee 
     FOREIGN KEY (employee_id) 
@@ -237,15 +241,15 @@ CREATE TABLE payroll (
 CREATE TABLE payroll_benefits (
     payroll_id_benefits_id INT PRIMARY KEY,
     employee_id INT,
-    benefit_type_id INT,
+    benefits_id INT,
 
     CONSTRAINT fk_payroll_benefits_employee
         FOREIGN KEY (employee_id)
-        REFERENCES employee(employee_id),
+        REFERENCES employee (employee_id),
 
-    CONSTRAINT fk_payroll_benefits_benefit_type
+    CONSTRAINT fk_payroll_benefits_benefits_id
         FOREIGN KEY (benefit_type_id)
-        REFERENCES benefit_type(benefit_type_id)
+        REFERENCES benefits (benefits_id)
 );
 
 CREATE TABLE payroll_deductions (
@@ -264,13 +268,18 @@ CREATE TABLE payroll_deductions (
 
 CREATE TABLE statutory (
     statutory_id INT PRIMARY KEY,
+    bracket_id INT, 
     payroll_id INT,
     deduction_type VARCHAR(50) NOT NULL,
     amount DECIMAL(10,2),
 
+	CONSTRAINT fk_statutory_bracket
+		FOREIGN KEY (bracket_id)
+		REFERENCES bracket (bracket_id), 
+        
     CONSTRAINT fk_statutory_payroll
         FOREIGN KEY (payroll_id)
-        REFERENCES payroll(payroll_id)
+        REFERENCES payroll (payroll_id)
 );
 
 CREATE TABLE bracket (
@@ -287,17 +296,17 @@ CREATE TABLE bracket (
 );
 
 CREATE TABLE statutory_deductions (
-    statutory_deduction_id INT PRIMARY KEY,
+    statutory_id_deduction_id INT PRIMARY KEY,
     deduction_id INT,
     statutory_id INT,
 
-    CONSTRAINT fk_statutory_deduction_deduction
+    CONSTRAINT fk_statutory_deductions_deduction
         FOREIGN KEY (deduction_id)
-        REFERENCES deductions(deduction_id),
+        REFERENCES deductions (deduction_id),
 
-    CONSTRAINT fk_statutory_deduction_statutory
+    CONSTRAINT fk_statutory_deductions_statutory
         FOREIGN KEY (statutory_id)
-        REFERENCES statutory(statutory_id)
+        REFERENCES statutory (statutory_id)
 );
 
 CREATE TABLE role_permissions (
