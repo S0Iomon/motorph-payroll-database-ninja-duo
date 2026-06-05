@@ -87,10 +87,27 @@ CREATE TABLE leave_status (
     status_name VARCHAR(50) NOT NULL
 );
 
+INSERT INTO leave_status
+(status_name)
+VALUES
+('Pending'),
+('Approved'),
+('Rejected'),
+('Cancelled');
+
 CREATE TABLE leave_type (
     leave_type_id INT PRIMARY KEY,
     leave_name VARCHAR(50) NOT NULL
 );
+
+INSERT INTO leave_type
+(leave_name)
+VALUES
+('Vacation Leave'),
+('Sick Leave'),
+('Emergency Leave'),
+('Maternity Leave'),
+('Paternity Leave');
 
 CREATE TABLE pay_period (
     pay_period_id INT PRIMARY KEY,
@@ -107,36 +124,40 @@ CREATE TABLE benefit_type (
 
 CREATE TABLE employee (
     employee_id INT PRIMARY KEY,
+
     supervisor_id INT NULL,
     department_id INT,
     pay_period_id INT,
     benefit_id INT,
     role_id INT,
     position_id INT,
+    address_id INT,
+    government_info_id INT,
 
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
 
     CONSTRAINT fk_employee_supervisor
-        FOREIGN KEY (supervisor_id)
-        REFERENCES employee(employee_id),
+    FOREIGN KEY (supervisor_id)
+    REFERENCES employee(employee_id),
 
     CONSTRAINT fk_employee_department
-        FOREIGN KEY (department_id)
-        REFERENCES department(department_id),
+    FOREIGN KEY (department_id)
+    REFERENCES department(department_id),
 
     CONSTRAINT fk_employee_pay_period
-        FOREIGN KEY (pay_period_id)
-        REFERENCES pay_period(pay_period_id),
+    FOREIGN KEY (pay_period_id)
+    REFERENCES pay_period(pay_period_id),
 
     CONSTRAINT fk_employee_role
-        FOREIGN KEY (role_id)
-        REFERENCES role(role_id),
+    FOREIGN KEY (role_id)
+    REFERENCES role(role_id),
 
     CONSTRAINT fk_employee_position
-        FOREIGN KEY (position_id)
-        REFERENCES position (position_id)
+    FOREIGN KEY (position_id)
+    REFERENCES position(position_id)
 );
+
 CREATE TABLE attendance (
 	attendance_id INT AUTO_INCREMENT PRIMARY KEY,
     employee_id INT,
@@ -412,6 +433,77 @@ CREATE TABLE bracket (
     FOREIGN KEY (statutory_id)
     REFERENCES statutory (statutory_id)
 );
+INSERT INTO bracket
+(statutory_id, minimum, maximum, rate)
+VALUES
+(1,0.00,3249.99,135.00),
+(1,3250.00,3749.99,157.50),
+(1,3750.00,4249.99,180.00),
+(1,4250.00,4749.99,202.50),
+(1,4750.00,5249.99,225.00),
+(1,5250.00,5749.99,247.50),
+(1,5750.00,6249.99,270.00),
+(1,6250.00,6749.99,292.50),
+(1,6750.00,7249.99,315.00),
+(1,7250.00,7749.99,337.50),
+(1,7750.00,8249.99,360.00),
+(1,8250.00,8749.99,382.50),
+(1,8750.00,9249.99,405.00),
+(1,9250.00,9749.99,427.50),
+(1,9750.00,10249.99,450.00),
+(1,10250.00,10749.99,472.50),
+(1,10750.00,11249.99,495.00),
+(1,11250.00,11749.99,517.50),
+(1,11750.00,12249.99,540.00),
+(1,12250.00,12749.99,562.50),
+(1,12750.00,13249.99,585.00),
+(1,13250.00,13749.99,607.50),
+(1,13750.00,14249.99,630.00),
+(1,14250.00,14749.99,652.50),
+(1,14750.00,15249.99,675.00),
+(1,15250.00,15749.99,697.50),
+(1,15750.00,16249.99,720.00),
+(1,16250.00,16749.99,742.50),
+(1,16750.00,17249.99,765.00),
+(1,17250.00,17749.99,787.50),
+(1,17750.00,18249.99,810.00),
+(1,18250.00,18749.99,832.50),
+(1,18750.00,19249.99,855.00),
+(1,19250.00,19749.99,877.50),
+(1,19750.00,20249.99,900.00),
+(1,20250.00,20749.99,922.50),
+(1,20750.00,21249.99,945.00),
+(1,21250.00,21749.99,967.50),
+(1,21750.00,22249.99,990.00),
+(1,22250.00,22749.99,1012.50),
+(1,22750.00,23249.99,1035.00),
+(1,23250.00,23749.99,1057.50),
+(1,23750.00,24249.99,1080.00),
+(1,24250.00,24749.99,1102.50),
+(1,24750.00,999999.99,1125.00);
+
+INSERT INTO bracket
+(statutory_id, minimum, maximum, rate)
+VALUES
+(2,10000.00,10000.00,300.00),
+(2,10000.01,59999.99,0.03),
+(2,60000.00,999999.99,1800.00);
+
+INSERT INTO bracket
+(statutory_id, minimum, maximum, rate)
+VALUES
+(3,1000.00,1500.00,0.01),
+(3,1500.01,999999.99,0.02);
+
+INSERT INTO bracket
+(statutory_id, minimum, maximum, rate)
+VALUES
+(4,0.00,20832.99,0.00),
+(4,20833.00,33332.99,0.20),
+(4,33333.00,66666.99,0.25),
+(4,66667.00,166666.99,0.30),
+(4,166667.00,666666.99,0.32),
+(4,666667.00,999999999.99,0.35);
 
 CREATE TABLE pag_ibig_contribution LIKE bracket;
 INSERT INTO pag_ibig_contribution
@@ -444,4 +536,162 @@ CREATE TABLE role_permissions (
     CONSTRAINT fk_permissions_role_permissions
     FOREIGN KEY (permissions_id)
     REFERENCES permissions (permissions_id)
+);
+
+CREATE TABLE address (
+    address_id INT AUTO_INCREMENT PRIMARY KEY
+    building VARCHAR(255) NOT NULL,
+    street VARCHAR(50) NOT NULL,
+    barangay VARCHAR(50) NOT NULL,
+    city VARCHAR(50) NOT NULL, 
+    province VARCHAR(50) NOT NULL, 
+    zip_code INT NOT NULL
+);
+
+CREATE TABLE status (
+    status_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT,
+    status_name ENUM(
+        'Regular',
+        'Probationary',
+        'Contractual',
+        'Resigned',
+        'Terminated'
+    ) NOT NULL,
+
+    CONSTRAINT fk_status_employee
+        FOREIGN KEY (employee_id)
+        REFERENCES employee(employee_id)
+);
+
+CREATE TABLE leave_status (
+    leave_status_id INT AUTO_INCREMENT PRIMARY KEY,
+    status_name VARCHAR(50) NOT NULL
+);
+
+INSERT INTO leave_status (status_name)
+VALUES
+('Pending'),
+('Approved'),
+('Rejected'),
+('Cancelled');
+
+CREATE TABLE leave_type (
+    leave_type_id INT AUTO_INCREMENT PRIMARY KEY,
+    leave_name VARCHAR(50) NOT NULL
+);
+
+INSERT INTO leave_type (leave_name)
+VALUES
+('Vacation Leave'),
+('Sick Leave'),
+('Emergency Leave'),
+('Maternity Leave'),
+('Paternity Leave');
+
+CREATE TABLE pay_period (
+    pay_period_id INT AUTO_INCREMENT PRIMARY KEY,
+    period_start DATE NOT NULL,
+    period_end DATE NOT NULL,
+    period_label VARCHAR(15) NULL
+);
+
+CREATE TABLE benefit_type (
+    benefit_type_id INT AUTO_INCREMENT PRIMARY KEY,
+    benefit_type VARCHAR(50) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL
+);
+
+INSERT INTO benefit_type
+(benefit_type, amount)
+VALUES
+('Rice Subsidy', 1500.00),
+('Phone Allowance', 1000.00),
+('Clothing Allowance', 1000.00);
+
+CREATE TABLE benefits (
+    benefit_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT,
+    benefit_type_id INT,
+    amount DECIMAL(10,2),
+
+    CONSTRAINT fk_benefits_employee
+        FOREIGN KEY (employee_id)
+        REFERENCES employee(employee_id),
+
+    CONSTRAINT fk_benefits_benefit_type
+        FOREIGN KEY (benefit_type_id)
+        REFERENCES benefit_type(benefit_type_id)
+);
+
+CREATE TABLE payroll_benefits (
+    payroll_benefit_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT,
+    benefit_id INT,
+
+    CONSTRAINT fk_payroll_benefits_employee
+        FOREIGN KEY (employee_id)
+        REFERENCES employee(employee_id),
+
+    CONSTRAINT fk_payroll_benefits_benefit
+        FOREIGN KEY (benefit_id)
+        REFERENCES benefits(benefit_id)
+);
+
+CREATE TABLE statutory (
+    statutory_id INT AUTO_INCREMENT PRIMARY KEY,
+    bracket_id INT,
+    payroll_id INT,
+    deduction_type ENUM(
+        'SSS',
+        'PHILHEALTH',
+        'PAGIBIG',
+        'WITHHOLDING_TAX'
+    ) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE deductions (
+    deduction_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT,
+    pay_period_id INT,
+    payroll_id INT,
+    statutory_id INT,
+    amount DECIMAL(10,2),
+
+    CONSTRAINT fk_deductions_employee
+        FOREIGN KEY (employee_id)
+        REFERENCES employee(employee_id),
+
+    CONSTRAINT fk_deductions_pay_period
+        FOREIGN KEY (pay_period_id)
+        REFERENCES pay_period(pay_period_id),
+);
+
+CREATE TABLE payroll_deductions (
+    payroll_id_deductions_id INT AUTO_INCREMENT PRIMARY KEY,
+    payroll_id INT,
+    deduction_id INT,
+
+    CONSTRAINT fk_payroll_deductions_payroll
+    FOREIGN KEY (payroll_id)
+    REFERENCES payroll(payroll_id),
+
+    CONSTRAINT fk_payroll_deductions_deduction
+    FOREIGN KEY (deduction_id)
+    REFERENCES deductions(deduction_id)
+);
+
+CREATE TABLE statutory_deductions (
+    statutory_deduction_id INT AUTO_INCREMENT PRIMARY KEY,
+    deduction_id INT,
+    statutory_id INT,
+
+    CONSTRAINT fk_statutory_deductions_deduction
+        FOREIGN KEY (deduction_id)
+        REFERENCES deductions(deduction_id),
+
+    CONSTRAINT fk_statutory_deductions_statutory
+        FOREIGN KEY (statutory_id)
+        REFERENCES statutory(statutory_id)
 );
