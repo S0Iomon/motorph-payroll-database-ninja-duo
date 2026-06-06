@@ -1,4 +1,3 @@
-
 CREATE TABLE department (
 department_id INT AUTO_INCREMENT PRIMARY KEY,
 department_name VARCHAR(50) NOT NULL
@@ -17,7 +16,7 @@ CREATE TABLE position (
     department_id INT,
     position_name VARCHAR(50) NOT NULL,
     description VARCHAR(255) NULL,
-    hourly_rate DECIMAL(10 , 2) NOT NULL,
+    hourly_rate DECIMAL(10, 2) NOT NULL,
     
     CONSTRAINT fk_position_department
     FOREIGN KEY (department_id)
