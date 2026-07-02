@@ -52,26 +52,27 @@ WITH PayrollCalculations AS (
         (CEIL(POSITION.hourly_rate * 8 * 21)) AS MonthlySalary,
         -- SSS Bracket Calculation
         CASE 
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 19750 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 20250 THEN 1000
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 20250 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 20750 THEN 1025
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 24750 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 25250 THEN 1250
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 29750 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 30250 THEN 1500
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 34750 THEN 1750
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (19750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < 20250 THEN (1000 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (20250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < 20750 THEN (1025 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (24750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < 25250 THEN (1250 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (29750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < 30250 THEN (1500 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (34750 / 2) THEN (1750 / 2)
             ELSE 0
         END AS SSS,
         
         -- PhilHealth Calculation
         CASE 
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) <= 8000 THEN 500
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) > 8000 THEN (CEIL(POSITION.hourly_rate * 8 * 21)) * 0.05 / 2
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) <= (10000 / 2) THEN (250 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (10000.01 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) <= (99999.99 / 2) THEN (((CEIL(POSITION.hourly_rate * 8 * 21) / 2) * 0.05) / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (100000 / 2) THEN (2500 / 2)
             ELSE 0
         END AS PhilHealth,
         
         -- PagIbig Calculation
         CASE 
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) <= 1500 THEN (CEIL(POSITION.hourly_rate * 8 * 21)) * 0.01
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) > 1500 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 10000 THEN (CEIL(POSITION.hourly_rate * 8 * 21)) * 0.02
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 10000 THEN 200
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) <= (1500 / 2) THEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) * 0.01
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) > (1500 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (10000 / 2) THEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) * 0.02
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (10000 / 2) THEN (200 / 2)
             ELSE 0
         END AS PagIbig
         
@@ -92,24 +93,24 @@ Deductions AS (
 		
 		-- Using the raw addition directly in the tax calculation to bypass alias issues
 		CASE
-			WHEN (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= 20833.34 
-			 AND (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= 33333.33 
-				 THEN ((MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - 20833.33) * 0.15)
+			WHEN ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= (20833.34/2) 
+			 AND ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= (33333.33/2)
+				 THEN (((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - (20833.33/2)) * 0.15)
 				 
-			WHEN (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= 33333.34 
-			 AND (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= 66666.67 
-				 THEN (((MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - 33333.33) * 0.2) + 1875)
+			WHEN ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= (33333.34/2) 
+			 AND ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= (66666.67/2) 
+				 THEN ((((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - (33333.33/2)) * 0.2) + (1875/2))
 				 
-			WHEN (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= 66666.68 
-			 AND (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= 166666.67 
-				 THEN (((MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - 66666.67) * 0.25) + 8541.67)
+			WHEN ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= (66666.68/2) 
+			 AND ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= (166666.67/2) 
+				 THEN ((((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - (66666.67/2)) * 0.25) + (8541.67/2))
 				 
-			WHEN (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= 166666.68 
-			 AND (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= 666666.67 
-				 THEN (((MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - 166666.67) * 0.3) + 33541.67)
+			WHEN ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= (166666.68/2)
+			 AND ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= (666666.67/2)
+				 THEN ((((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - (166666.67/2)) * 0.3) + (33541.67/2))
 				 
-			WHEN (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= 666666.68 
-				 THEN (((MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - 666666.68) * 0.35) + 183541.67)
+			WHEN ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= (666666.68/2)
+				 THEN ((((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - (666666.68/2)) * 0.35) + (183541.67/2))
 			ELSE 0
 		END AS WithholdingTax
 	FROM PayrollCalculations
@@ -131,26 +132,26 @@ WITH PayrollCalculations AS (
         (CEIL(POSITION.hourly_rate * 8 * 21)) AS MonthlySalary,
         -- SSS Bracket Calculation
         CASE 
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 19750 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 20250 THEN 1000
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 20250 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 20750 THEN 1025
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 24750 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 25250 THEN 1250
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 29750 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 30250 THEN 1500
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 34750 THEN 1750
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) >= (19750/2) AND (CEIL(POSITION.hourly_rate * 8 * 21)/2) < 20250 THEN (1000/2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) >= (20250/2) AND (CEIL(POSITION.hourly_rate * 8 * 21)/2) < 20750 THEN (1025/2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) >= (24750/2) AND (CEIL(POSITION.hourly_rate * 8 * 21)/2) < 25250 THEN (1250/2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) >= (29750/2) AND (CEIL(POSITION.hourly_rate * 8 * 21)/2) < 30250 THEN (1500/2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) >= (34750/2) THEN (1750/2)
             ELSE 0
         END AS SSS,
         
         -- PhilHealth Calculation
         CASE 
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) <= 8000 THEN 500
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) > 8000 THEN (CEIL(POSITION.hourly_rate * 8 * 21)) * 0.05 / 2
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) <= (8000/2) THEN (500/2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) > (8000/2) THEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) * 0.05 / 2
             ELSE 0
         END AS PhilHealth,
         
         -- PagIbig Calculation
         CASE 
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) <= 1500 THEN (CEIL(POSITION.hourly_rate * 8 * 21)) * 0.01
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) > 1500 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 10000 THEN (CEIL(POSITION.hourly_rate * 8 * 21)) * 0.02
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 10000 THEN 200
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) <= (1500/2) THEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) * 0.01
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) > (1500/2) AND (CEIL(POSITION.hourly_rate * 8 * 21)) < (10000/2) THEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) * 0.02
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) >= (10000/2) THEN (200/2)
             ELSE 0
         END AS PagIbig
         
@@ -171,17 +172,17 @@ Deductions AS (
 		
 		-- Using the raw addition directly in the tax calculation to bypass alias issues
 		CASE
-			WHEN (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= 20833.34 
-			 AND (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= 33333.33 
-				 THEN ((MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - 20833.33) * 0.15)
+			WHEN ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= (20833.34/2) 
+			 AND ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= (33333.33/2)
+				 THEN (((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - (20833.33/2)) * 0.15)
 				 
-			WHEN (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= 33333.34 
-			 AND (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= 66666.67 
-				 THEN (((MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - 33333.33) * 0.2) + 1875)
+			WHEN ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= (33333.34/2) 
+			 AND ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= (66666.67/2) 
+				 THEN ((((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - (33333.33/2)) * 0.2) + (1875/2))
 				 
-			WHEN (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= 66666.68 
-			 AND (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= 166666.67 
-				 THEN (((MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - 66666.67) * 0.25) + 8541.67)
+			WHEN ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= (66666.68/2) 
+			 AND ((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= (166666.67/2) 
+				 THEN ((((MonthlySalary/2) - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0)) - (66666.67/2)) * 0.25) + (8541.67/2))
 				 
 			WHEN (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) >= 166666.68 
 			 AND (MonthlySalary - (COALESCE(SSS, 0) + COALESCE(PhilHealth, 0) + COALESCE(PagIbig, 0))) <= 666666.67 
@@ -207,7 +208,7 @@ BenefitsSummary AS (
 Summary AS (
 	SELECT 
 		EMPLOYEE.employee_id,
-		(CEIL(POSITION.hourly_rate * 8 * 21) / 20) * COUNT(ATTENDANCE.date) AS grossIncome
+		(CEIL(POSITION.hourly_rate * 8 * 21) / 2) AS grossIncome
 	FROM EMPLOYEE
 	INNER JOIN POSITION ON EMPLOYEE.position_id = POSITION.position_id
 	INNER JOIN ATTENDANCE ON EMPLOYEE.employee_id = ATTENDANCE.employee_id
