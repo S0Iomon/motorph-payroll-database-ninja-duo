@@ -373,8 +373,8 @@ SELECT * FROM employee_credentials;
 
 CREATE TABLE employee_role (
 emp_credential_id_role_id INT AUTO_INCREMENT PRIMARY KEY,
-    emp_credential_id INT,
-    role_id INT,
+    emp_credential_id INT NOT NULL,
+    role_id INT NOT NULL,
     
     CONSTRAINT fk_employee_role_employee_credentials
     FOREIGN KEY (emp_credential_id)
@@ -456,8 +456,8 @@ SELECT * FROM leave_request;
 
 CREATE TABLE benefits ( 
     benefit_id INT AUTO_INCREMENT PRIMARY KEY, 
-    employee_id INT, 
-    benefit_type_id INT, 
+    employee_id INT NOT NULL, 
+    benefit_type_id INT NOT NULL, 
     
     CONSTRAINT fk_benefits_employee 
     FOREIGN KEY (employee_id) 
@@ -476,8 +476,8 @@ SELECT * FROM benefits;
 
 CREATE TABLE deductions (
     deduction_id INT AUTO_INCREMENT PRIMARY KEY,
-    employee_id INT,
-    pay_period_id INT,
+    employee_id INT NOT NULL,
+    pay_period_id INT NOT NULL,
     amount DECIMAL(10,2),
 
     CONSTRAINT fk_deductions_employee
@@ -577,8 +577,8 @@ SELECT * FROM bracket;
 
 CREATE TABLE statutory_deductions (
     statutory_deduction_id INT AUTO_INCREMENT PRIMARY KEY,
-    deduction_id INT,
-    statutory_id INT,
+    deduction_id INT NOT NULL,
+    statutory_id INT NOT NULL,
 
     CONSTRAINT fk_statutory_deduction_deduction
         FOREIGN KEY (deduction_id)
@@ -596,8 +596,8 @@ SELECT * FROM statutory_deductions;
 
 CREATE TABLE role_permissions (
 role_id_permissions_id INT AUTO_INCREMENT PRIMARY KEY,
-    role_id INT,
-    permissions_id INT,
+    role_id INT NOT NULL,
+    permissions_id INT NOT NULL,
     
     CONSTRAINT fk_role_role_permissions
     FOREIGN KEY (role_id)
