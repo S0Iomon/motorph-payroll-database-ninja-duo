@@ -98,8 +98,8 @@ CREATE TABLE pay_period (
 );
 INSERT INTO pay_period (period_start, period_end, period_label)
 VALUES 
-('2026-06-01', '2026-06-15', 'Period 1'),
-('2026-06-16', '2026-06-30', 'Period 2');
+('2026-01-02', '2026-01-15', 'Period 1'),
+('2026-01-02', '2026-01-30', 'Period 2');
 SELECT * FROM pay_period;
 
 CREATE TABLE benefit_type (
@@ -110,7 +110,7 @@ CREATE TABLE benefit_type (
 INSERT INTO benefit_type (benefit_type, amount)
 VALUES
 ('Rice Subsidy', 1500.00),
-('Phone Allowance', 1000.00),
+('Phone Allowance', 2000.00),
 ('Clothing Allowance', 1000.00);
 SELECT * FROM benefit_type;
 
@@ -124,8 +124,42 @@ CREATE TABLE address (
     zip_code INT NOT NULL
 );
 INSERT INTO address (building, street, barangay, city, province, zip_code)
-VALUES	('Makati Corporate Center', 'Makati Avenue', 'Bel-Air', 'Makati City', 'Metro Manila', 1200),
-		('BGC Central', 'Third Avenue', 'Bonifacio Global City', 'Taguig City', 'Metro Manila', 1634);
+VALUES
+('Valero Carpark Building', 'Valero Street', '', 'Makati City', '', 1227),
+('', 'San Antonio De Padua 2, Block 1 Lot 8 and 2', '', 'Dasmarinas', 'Cavite', 0),
+('Rm. 402 4/F Jiao Building', 'Timog Avenue Cor. Quezon Avenue', '', 'Quezon City', '', 1100),
+('', '460 Solanda Street', 'Intramuros', 'Manila', '', 1000),
+('', 'National Highway', '', 'Gingoog', 'Misamis Occidental', 0),
+('17/85 Stracke Via Suite 042', '', 'Poblacion', 'Las Piñas', 'Dinagat Islands', 4783),
+('99 Strosin Hills', '', 'Poblacion', 'Bislig', 'Tawi-Tawi', 5340),
+('12A/33 Upton Isle Apt. 420', '', '', 'Roxas City', 'Surigao del Norte', 1814),
+('90A Dibbert Terrace Apt. 190', '', '', 'San Lorenzo', 'Davao del Norte', 6056),
+('', '#284 T. Morato corner, Scout Rallos Street', '', 'Quezon City', '', 0),
+('93/54 Shanahan Alley Apt. 183', '', '', 'Santo Tomas', 'Masbate', 1572),
+('49 Springs Apt. 266', '', 'Poblacion', 'Taguig', 'Occidental Mindoro', 3200),
+('42/25 Sawayn Stream', '', '', 'Ubay', 'Zamboanga del Norte', 1208),
+('37/46 Kulas Roads', '', '', 'Maragondon', 'Quirino', 0962),
+('22A/52 Lubowitz Meadows', '', '', 'Pililla', 'Zambales', 4895),
+('90 O\'Keefe Spur Apt. 379', '', '', 'Catigbian', 'Sulu', 2772),
+('89A Armstrong Trace', '', '', 'Compostela', 'Maguindanao', 7874),
+('08 Grant Drive Suite 406', '', 'Poblacion', 'Iloilo City', 'La Union', 9186),
+('93A/21 Berge Points', '', '', 'Tapaz', 'Quezon', 2180),
+('65 Murphy Center Suite 094', '', 'Poblacion', 'Palayan', 'Quirino', 5636),
+('47A/94 Larkin Plaza Apt. 179', '', 'Poblacion', 'Caloocan', 'Quirino', 2751),
+('06A Gulgowski Extensions', '', '', 'Bongabon', 'Zamboanga del Sur', 6085),
+('99A Padberg Spring', '', 'Poblacion', 'Mabalacat', 'Lanao del Sur', 3959),
+('80A/48 Ledner Ridges', '', 'Poblacion', 'Kabankalan', 'Marinduque', 8870),
+('96/48 Watsica Flats Suite 734', '', 'Poblacion', 'Malolos', 'Ifugao', 1844),
+('58A Wilderman Walks', '', 'Poblacion', 'Digos', 'Davao del Sur', 5822),
+('60 Goyette Valley Suite 219', '', 'Poblacion', 'Tabuk', 'Lanao del Sur', 3159),
+('66/77 Mann Views', '', '', 'Luisiana', 'Dinagat Islands', 1263),
+('72/70 Stamm Spurs', '', '', 'Bustos', 'Iloilo', 4550),
+('50A/83 Bahringer Oval Suite 145', '', '', 'Kiamba', 'Nueva Ecija', 7688),
+('95 Cremin Junction', '', '', 'Surallah', 'Cotabato', 2809),
+('', 'Hi-way', 'Yati', 'Liloan', 'Cebu', 0),
+('', '', 'Bulala', 'Camalaniugan', '', 0),
+('Agapita Building', '', '', 'Metro Manila', '', 0);
+
 SELECT * FROM address;
 
 CREATE TABLE government_info (
@@ -137,8 +171,40 @@ CREATE TABLE government_info (
 );
 INSERT INTO government_info (sss_number, phil_health_number, tin_number, pag_ibig_number)
 VALUES
-(11111111110, 12345678901, 12345678901, 12345678901),
-(11111111111, 12345678902, 12345678902, 12345678902);
+(4445060573, 820126853951, 442605657000, 691295330870),
+(5220612749, 331735646338, 683102776000, 663904995411),
+(3088704062, 177451189665, 971711280000, 171519773969),
+(4025118150, 341911411254, 876809437000, 416946776041),
+(5055776381, 957436191812, 31702374000, 952347222457),
+(4916320208, 382189453145, 317674022000, 441093369646),
+(4024007141, 239192926939, 672474690000, 210850209964),
+(5544765272, 545652640232, 888572294000, 211385556888),
+(4106446923, 708988234853, 604997793000, 260107732354),
+(6476050544, 578114853194, 525420419000, 799254095212),
+(2696476083, 126445315651, 210805911000, 218002473454),
+(4485634483, 431709011012, 218489737000, 113071293354),
+(4556563750, 233693897247, 210835851000, 631130283546),
+(2720909964, 515741057496, 275792513000, 101205445886),
+(2687683741, 308366860059, 598065761000, 223057707853),
+(49-2959312-6, 824187961962, 103100522000, 631052853464),
+(2720902088, 587272469938, 482259498000, 719007608464),
+(4532513830, 745148459521, 121203336000, 114901859343),
+(4916299002, 579253435499, 122244511000, 265104358643),
+(4916473425, 399665157135, 273970941000, 260054585575),
+(4556171682, 606386917510, 354650951000, 104907708845),
+(5201095706, 357451271274, 187500345000, 113017988667),
+(5298835243, 548670482885, 101558994000, 360028104576),
+(4558663316, 953901539995, 560735732000, 913108649964),
+(4716927930, 753800654114, 841177857000, 210546661243),
+(4095046578, 797639382265, 502995671000, 210897095686),
+(4532981664, 810909286264, 336676445000, 211274476563),
+(4024007194, 934389652994, 210395397000, 122238077997),
+(6011522064, 351830469744, 395032717000, 212141893454),
+(5413310050, 465087894112, 215973013000, 515012579765),
+(5218592531, 136451303068, 599312588000, 110018813465),
+(2671451334, 601644902402, 404768309000, 697764069311),
+(1150629727, 380685387212, 256436296000, 993372963726),
+(2029875015, 918460050077, 911529713000, 874042259378);
 SELECT * FROM government_info;
 
 CREATE TABLE employee (
@@ -188,41 +254,40 @@ CREATE TABLE employee (
 );
 
 INSERT INTO employee (employee_id, supervisor_id, department_id, pay_period_id, benefit_type_id, role_id, position_id, address_id, government_info_id, first_name, last_name)
-VALUES	(10001, NULL, 1, 1, 1, 1, 1, 1, 1, 'John', 'Doe'),
-		(10002, 10001, 2, 1, 1, 2, 6, 1, 1, 'Jane', 'Smith'),
-		(10003, 10001, 3, 1, 1, 2, 9, 1, 1, 'Robert', 'Johnson'),
-		(10004, 10002, 2, 1, 2, 3, 7, 1, 1, 'Maria', 'Garcia'),
-		(10005, 10001, 4, 1, 2, 3, 5, 1, 1, 'Michael', 'Brown'),
-		(10006, 10002, 2, 1, 3, 3, 8, 1, 2, 'Jennifer', 'Davis'),
-		(10007, 10003, 3, 1, 1, 3, 11, 2, 2, 'David', 'Miller'),
-		(10008, 10001, 5, 1, 2, 3, 16, 2, 2, 'Sarah', 'Wilson'),
-		(10009, 10008, 5, 1, 1, 3, 18, 2, 1, 'James', 'Moore'),
-		(10010, 10003, 3, 1, 3, 3, 12, 1, 1, 'Patricia', 'Taylor'),
-		(10011, 10001, 6, 1, 2, 3, 17, 1, 2, 'Christopher', 'Anderson'),
-		(10012, 10002, 2, 1, 1, 3, 7, 2, 1, 'Lisa', 'Thomas'),
-		(10013, 10003, 3, 1, 2, 3, 13, 1, 1, 'Daniel', 'Jackson'),
-		(10014, 10001, 1, 1, 3, 2, 2, 1, 2, 'Carol', 'White'),
-		(10015, 10002, 2, 1, 1, 2, 7, 2, 1, 'Matthew', 'Harris'),
-		(10016, 10001, 3, 1, 2, 3, 10, 1, 1, 'Mary', 'Martin'),
-		(10017, 10008, 5, 1, 1, 3, 16, 1, 2, 'Mark', 'Lee'),
-		(10018, 10003, 3, 1, 3, 3, 14, 2, 1, 'Sandra', 'Perez'),
-		(10019, 10001, 4, 1, 1, 3, 5, 1, 2, 'Donald', 'Thompson'),
-		(10020, 10001, 3, 1, 2, 3, 15, 2, 1, 'Ashley', 'Garcia'),
-		(10021, 10002, 2, 1, 1, 3, 8, 1, 1, 'Kenneth', 'Martinez'),
-		(10022, 10003, 3, 1, 3, 3, 11, 1, 2, 'Donna', 'Robinson'),
-		(10023, 10001, 1, 1, 2, 2, 1, 2, 1, 'Paul', 'Clark'),
-		(10024, 10008, 5, 1, 1, 3, 18, 1, 1, 'Jessica', 'Rodriguez'),
-		(10025, 10002, 2, 1, 2, 3, 6, 2, 2, 'Stephen', 'Lewis'),
-		(10026, 10003, 3, 1, 1, 3, 12, 1, 1, 'Shirley', 'Lee'),
-		(10027, 10001, 4, 1, 3, 3, 5, 1, 1, 'Larry', 'Walker'),
-		(10028, 10001, 5, 1, 1, 3, 17, 2, 2, 'Cynthia', 'Hall'),
-		(10029, 10003, 3, 1, 2, 3, 13, 1, 1, 'Jeffrey', 'Allen'),
-		(10030, 10002, 2, 1, 1, 3, 7, 1, 2, 'Kathleen', 'Young'),
-		(10031, 10001, 1, 1, 3, 2, 2, 2, 1, 'Ryan', 'Hernandez'),
-		(10032, 10008, 
-5, 1, 2, 3, 16, 1, 1, 'Brenda', 'King'),
-		(10033, 10003, 3, 1, 1, 3, 10, 2, 2, 'Jacob', 'Wright'),
-		(10034, 10001, 6, 1, 2, 3, 17, 1, 1, 'Karen', 'Lopez');
+VALUES	(10001, NULL, 1, 1, 1, 1, 1, 1, 1, 'Manuel III', 'Garcia'),
+		(10002, 10001, 2, 1, 1, 2, 6, 2, 2, 'Antonio', 'Lim'),
+		(10003, 10001, 3, 1, 1, 2, 9, 3, 3, 'Bianca Sofia', 'Aquino'),
+		(10004, 10002, 2, 1, 2, 3, 7, 4, 4, 'Isabella', 'Reyes'),
+		(10005, 10001, 4, 1, 2, 3, 5, 5, 5, 'Eduard', 'Hernandez'),
+		(10006, 10002, 2, 1, 3, 3, 8, 6, 6, 'Andrea Mae', 'Villanueva'),
+		(10007, 10003, 3, 1, 1, 3, 11, 7, 7, 'Brad', 'San Jose'),
+		(10008, 10001, 5, 1, 2, 3, 16, 8, 8, 'Alice', 'Romualdez'),
+		(10009, 10008, 5, 1, 1, 3, 18, 9, 9, 'Rosie', 'Atienza'),
+		(10010, 10003, 3, 1, 3, 3, 12, 10, 10, 'Roderick', 'Alvaro'),
+		(10011, 10001, 6, 1, 2, 3, 17, 11, 11, 'Anthony', 'Salcedo'),
+		(10012, 10002, 2, 1, 1, 3, 7, 12, 12, 'Josie', 'Lopez'),
+		(10013, 10003, 3, 1, 2, 3, 13, 13, 13, 'Martha', 'Farala'),
+		(10014, 10001, 1, 1, 3, 2, 2, 14, 14, 'Leila', 'Martinez'),
+		(10015, 10002, 3, 1, 1, 2, 13, 15, 15, 'Fredrick', 'Romualdez'),
+		(10016, 10001, 3, 1, 2, 3, 10, 16, 16, 'Christian', 'Mata'),
+		(10017, 10008, 5, 1, 1, 3, 16, 17, 17, 'Selena', 'De Leon'),
+		(10018, 10003, 3, 1, 3, 3, 14, 18, 18, 'Allison', 'San Jose'),
+		(10019, 10001, 4, 1, 1, 3, 5, 19, 19, 'Cydney', 'Rosario'),
+		(10020, 10001, 3, 1, 2, 3, 15, 20, 20, 'Mark', 'Bautista'),
+		(10021, 10002, 2, 1, 1, 3, 8, 21, 21, 'Darlene', 'Lazaro'),
+		(10022, 10003, 3, 1, 3, 3, 11, 22, 22, 'Kolby', 'Delos Santos'),
+		(10023, 10001, 1, 1, 2, 2, 1, 23, 23, 'Vella', 'Santos'),
+		(10024, 10008, 5, 1, 1, 3, 18, 24, 24, 'Tomas', 'Del Rosario'),
+		(10025, 10002, 2, 1, 2, 3, 6, 25, 25, 'Jacklyn', 'Tolentino'),
+		(10026, 10003, 3, 1, 1, 3, 12, 26, 26, 'Percival', 'Gutierrez'),
+		(10027, 10001, 4, 1, 3, 3, 5, 27, 27, 'Garfield', 'Manalaysay'),
+		(10028, 10001, 5, 1, 1, 3, 17, 28, 28, 'Lizeth', 'Villegas'),
+		(10029, 10003, 3, 1, 2, 3, 13, 29, 29, 'Carol', 'Ramos'),
+		(10030, 10002, 2, 1, 1, 3, 7, 30, 30, 'Emelia', 'Maceda'),
+		(10031, 10001, 1, 1, 3, 2, 2, 31, 31, 'Delia', 'Aguilar'),
+		(10032, 10008, 5, 1, 2, 3, 16, 32, 32, 'John Rafael', 'Castro'),
+		(10033, 10003, 3, 1, 1, 3, 10, 33, 33, 'Carlos Ian', 'Martinez'),
+		(10034, 10001, 6, 1, 2, 3, 17, 34, 34, 'Beatriz', 'Santos');
 SELECT * FROM employee;
 
 CREATE TABLE attendance (
@@ -238,25 +303,25 @@ attendance_id INT AUTO_INCREMENT PRIMARY KEY,
     REFERENCES employee (employee_id)
 );
 INSERT INTO attendance (employee_id, date, time_in, time_out, total_regular_hours)
-VALUES	(10015, '2023-12-01', '08:00:00', '17:00:00', 8),
-		(10015, '2023-12-04', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-05', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-06', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-07', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-11', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-12', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-13', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-14', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-15', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-18', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-19', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-20', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-21', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-22', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-26', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-27', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-28', '08:00:00', '17:00:00', 8),
-        (10015, '2023-12-29', '08:00:00', '17:00:00', 8);
+VALUES	(10015, '2026-01-02', '08:00:00', '17:00:00', 8),
+		(10015, '2026-01-05', '08:00:00', '17:00:00', 8),
+        (10015, '2026-01-06', '08:00:00', '17:00:00', 8),
+        (10015, '2026-01-07', '08:00:00', '17:00:00', 8),
+        (10015, '2026-01-08', '08:00:00', '17:00:00', 8),
+        (10015, '2026-01-09', '08:00:00', '17:00:00', 8),
+        (10015, '2026-01-12', '08:00:00', '17:00:00', 8),
+        (10015, '2026-01-13', '08:00:00', '17:00:00', 8),
+        (10015, '2026-01-14', '08:00:00', '17:00:00', 8),
+        (10015, '2026-01-15', '08:00:00', '17:00:00', 8),
+        (10015, '2026-12-18', '08:00:00', '17:00:00', 8),
+        (10015, '2026-12-19', '08:00:00', '17:00:00', 8),
+        (10015, '2026-12-20', '08:00:00', '17:00:00', 8),
+        (10015, '2026-12-21', '08:00:00', '17:00:00', 8),
+        (10015, '2026-12-22', '08:00:00', '17:00:00', 8),
+        (10015, '2026-12-26', '08:00:00', '17:00:00', 8),
+        (10015, '2026-12-27', '08:00:00', '17:00:00', 8),
+        (10015, '2026-12-28', '08:00:00', '17:00:00', 8),
+        (10015, '2026-12-29', '08:00:00', '17:00:00', 8);
 SELECT * FROM attendance;
 
 CREATE TABLE employee_credentials (
@@ -270,40 +335,40 @@ emp_credential_id INT AUTO_INCREMENT PRIMARY KEY,
 REFERENCES employee (employee_id)
 );
 INSERT INTO employee_credentials (employee_id, username, password_hash)
-VALUES	(10001, 'admin', 'pwhash'),
-		(10002, 'admin', 'pwhash'),
-        (10003, 'admin', 'pwhash'),
-        (10004, 'admin', 'pwhash'),
-        (10005, 'admin', 'pwhash'),
-        (10006, 'admin', 'pwhash'),
-        (10007, 'admin', 'pwhash'),
-        (10008, 'admin', 'pwhash'),
-        (10009, 'admin', 'pwhash'),
-        (10010, 'admin', 'pwhash'),
-        (10011, 'admin', 'pwhash'),
-        (10012, 'admin', 'pwhash'),
-        (10013, 'admin', 'pwhash'),
-        (10014, 'admin', 'pwhash'),
-        (10015, 'admin', 'pwhash'),
-        (10016, 'admin', 'pwhash'),
-        (10017, 'admin', 'pwhash'),
-        (10018, 'admin', 'pwhash'),
-        (10019, 'admin', 'pwhash'),
-        (10020, 'admin', 'pwhash'),
-        (10021, 'admin', 'pwhash'),
-        (10022, 'admin', 'pwhash'),
-        (10023, 'admin', 'pwhash'),
-        (10024, 'admin', 'pwhash'),
-        (10025, 'admin', 'pwhash'),
-        (10026, 'admin', 'pwhash'),
-        (10027, 'admin', 'pwhash'),
-        (10028, 'admin', 'pwhash'),
-        (10029, 'admin', 'pwhash'),
-        (10030, 'admin', 'pwhash'),
-        (10031, 'admin', 'pwhash'),
-        (10032, 'admin', 'pwhash'),
-        (10033, 'admin', 'pwhash'),
-        (10034, 'admin', 'pwhash');
+VALUES	(10001, 'manuel_garcia', 'pwhash'),
+		(10002, 'antonio_lim', 'pwhash'),
+        (10003, 'bianca_aquino', 'pwhash'),
+        (10004, 'isabella_reyes', 'pwhash'),
+        (10005, 'eduard_hernandez', 'pwhash'),
+        (10006, 'andrea_villanueva', 'pwhash'),
+        (10007, 'brad_sanjose', 'pwhash'),
+        (10008, 'alice_romualdez', 'pwhash'),
+        (10009, 'rosie_atienza', 'pwhash'),
+        (10010, 'roderick_alvaro', 'pwhash'),
+        (10011, 'anthony_salcedo', 'pwhash'),
+        (10012, 'josie_lopez', 'pwhash'),
+        (10013, 'martha_farala', 'pwhash'),
+        (10014, 'leila_martinez', 'pwhash'),
+        (10015, 'fredrick_romualdez', 'pwhash'),
+        (10016, 'christian_mata', 'pwhash'),
+        (10017, 'selena_deleon', 'pwhash'),
+        (10018, 'allison_sanjose', 'pwhash'),
+        (10019, 'cydney_rosario', 'pwhash'),
+        (10020, 'mark_bautista', 'pwhash'),
+        (10021, 'darlene_lazaro', 'pwhash'),
+        (10022, 'kolby_delossantos', 'pwhash'),
+        (10023, 'vella_santos', 'pwhash'),
+        (10024, 'tomas_delrosario', 'pwhash'),
+        (10025, 'jacklyn_tolentino', 'pwhash'),
+        (10026, 'percival_gutierrez', 'pwhash'),
+        (10027, 'garfield_manalaysay', 'pwhash'),
+        (10028, 'lizeth_villegas', 'pwhash'),
+        (10029, 'carol_ramos', 'pwhash'),
+        (10030, 'emelia_maceda', 'pwhash'),
+        (10031, 'delia_aguilar', 'pwhash'),
+        (10032, 'john_castro', 'pwhash'),
+        (10033, 'carlos_martinez', 'pwhash'),
+        (10034, 'beatriz_santos', 'pwhash');
 SELECT * FROM employee_credentials;
 
 CREATE TABLE employee_role (
@@ -393,7 +458,6 @@ CREATE TABLE benefits (
     benefit_id INT AUTO_INCREMENT PRIMARY KEY, 
     employee_id INT, 
     benefit_type_id INT, 
-    amount DECIMAL(10,2), 
     
     CONSTRAINT fk_benefits_employee 
     FOREIGN KEY (employee_id) 
@@ -403,11 +467,11 @@ CREATE TABLE benefits (
     FOREIGN KEY (benefit_type_id)
     REFERENCES benefit_type(benefit_type_id) 
 );
-INSERT INTO benefits (employee_id, benefit_type_id, amount)
+INSERT INTO benefits (employee_id, benefit_type_id)
 VALUES
-(10001, 1, 1500.00),
-(10002, 1, 1500.00),
-(10015, 2, 1000.00);
+(10015, 1),
+(10015, 2),
+(10015, 3);
 SELECT * FROM benefits;
 
 CREATE TABLE deductions (
@@ -447,9 +511,12 @@ payroll_id INT AUTO_INCREMENT PRIMARY KEY,
 );
 INSERT INTO payroll (employee_id, pay_period_id, net_pay, gross_pay)
 VALUES
-(10001, 1, 44285.60, 50000.00),
-(10002, 1, 28560.00, 32000.00),
-(10015, 1, 20430.40, 23000.00);
+(10034, 2, 44285.60, 50000.00),
+(10022, 2, 28560.00, 32000.00),
+(10015, 2, 20430.40, 23000.00),
+(10005, 2, 20430.40, 23000.00),
+(10003, 2, 20430.40, 23000.00);
+
 SELECT * FROM payroll;
 
 CREATE TABLE status (
