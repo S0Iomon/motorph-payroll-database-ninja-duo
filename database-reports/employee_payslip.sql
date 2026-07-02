@@ -1,3 +1,7 @@
+USE payrolldb_motorph;
+
+DROP VIEW IF EXISTS Payslip_Employee_Details;
+CREATE VIEW Payslip_Employee_Details AS
 SELECT CONCAT(EMPLOYEE.employee_id, '-', PAY_PERIOD.period_end) AS payslipID, 
 EMPLOYEE.employee_id AS employeeID, EMPLOYEE.last_name AS lastName, EMPLOYEE.first_name AS firstName, 
 PAY_PERIOD.period_start AS periodStart, PAY_PERIOD.period_end AS periodEnd, 
@@ -11,6 +15,8 @@ INNER JOIN DEPARTMENT ON EMPLOYEE.department_id = DEPARTMENT.department_id
 
 WHERE EMPLOYEE.employee_id = 10015;
 
+DROP VIEW IF EXISTS Payslip_Earnings;
+CREATE VIEW Payslip_Earnings AS
 SELECT CEIL(POSITION.hourly_rate * 8 * 21) AS monthlySalary, 
 (CEIL(POSITION.hourly_rate * 8 * 21) / 20) AS dailyRate,
 COUNT(ATTENDANCE.date) AS daysWorked,
@@ -26,6 +32,8 @@ WHERE ATTENDANCE.date BETWEEN PAY_PERIOD.period_start AND PAY_PERIOD.period_end
 
 GROUP BY EMPLOYEE.employee_id;
 
+DROP VIEW IF EXISTS Payslip_Benefits;
+CREATE VIEW Payslip_Benefits AS
 SELECT 
     IFNULL(BENEFIT_TYPE.benefit_type, 'GRAND TOTAL') AS benefits, 
     SUM(BENEFIT_TYPE.amount) AS amount
@@ -36,6 +44,8 @@ FROM BENEFITS
     
 GROUP BY BENEFIT_TYPE.benefit_type WITH ROLLUP;
 
+DROP VIEW IF EXISTS Payslip_Deductions;
+CREATE VIEW Payslip_Deductions AS
 WITH PayrollCalculations AS (
     SELECT 
         EMPLOYEE.employee_id,
@@ -113,6 +123,8 @@ SELECT
 	(SSS + PhilHealth + PagIbig + WithholdingTax) AS TotalDeductions 
 FROM Deductions;
 
+DROP VIEW IF EXISTS Payslip_Summary;
+CREATE VIEW Payslip_Summary AS
 WITH PayrollCalculations AS (
     SELECT 
         EMPLOYEE.employee_id,
