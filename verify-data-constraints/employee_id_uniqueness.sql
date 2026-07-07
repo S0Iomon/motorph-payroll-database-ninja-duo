@@ -1,0 +1,2 @@
+INSERT INTO employee (employee_id, supervisor_id, department_id, pay_period_id, benefit_type_id, role_id, position_id, address_id, government_info_id, status_id, first_name, last_name)
+VALUES (10040, 10005, 4, 1, 2, 3, 19, 40, 15, 40, 'Mac Arnold', 'Almirol');

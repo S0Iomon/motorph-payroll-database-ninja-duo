@@ -16,7 +16,7 @@ CREATE TABLE position (
     department_id INT,
     position_name VARCHAR(50) NOT NULL,
     description VARCHAR(255) NULL,
-    hourly_rate DECIMAL(10, 2) NOT NULL,
+    hourly_rate DECIMAL(10, 6) NOT NULL,
     
     CONSTRAINT fk_position_department
     FOREIGN KEY (department_id)
@@ -40,7 +40,8 @@ VALUES	(1, 'Chief Executive Officer', '', 535.71),
         (3, 'Account Rank and File', '', 133.93),
         (5, 'Sales & Marketing', '', 313.51),
         (6, 'Supply Chain and Logistics', '', 313.51),
-        (5, 'Customer Service and Relations', '', 313.51);
+        (5, 'Customer Service and Relations', '', 313.51),
+        (4, 'IT Technical Support', '', 255.80);
 SELECT * FROM position;
 
 CREATE TABLE role (
@@ -158,7 +159,13 @@ VALUES
 ('95 Cremin Junction', '', '', 'Surallah', 'Cotabato', 2809),
 ('', 'Hi-way', 'Yati', 'Liloan', 'Cebu', 0),
 ('', '', 'Bulala', 'Camalaniugan', '', 0),
-('Agapita Building', '', '', 'Metro Manila', '', 0);
+('Agapita Building', '', '', 'Metro Manila', '', 0),
+('', '', '', '', '', 0),
+('', '', '', '', '', 0),
+('Ayala Avenue 1200', '', 'Makati City', 'Metro Manila', '', 0),
+('', '', '', '', '', 0),
+('', '', '', '', '', 0),
+('Unit 2802 One San Miguel Bldg', 'Shaw Blvd Cor San Miguel Ave', 'Ortigas Ctr 1605', 'Pasig City','',0);
 
 SELECT * FROM address;
 
@@ -204,11 +211,68 @@ VALUES
 (5218592531, 136451303068, 599312588000, 110018813465),
 (2671451334, 601644902402, 404768309000, 697764069311),
 (1150629727, 380685387212, 256436296000, 993372963726),
-(2029875015, 918460050077, 911529713000, 874042259378);
+(2029875015, 918460050077, 911529713000, 874042259378),
+(3641605364, 862055202862, 936540856000, 521301652682);
 SELECT * FROM government_info;
 
+CREATE TABLE status (
+    status_id INT AUTO_INCREMENT PRIMARY KEY,
+    status_name ENUM (
+        'Regular',
+        'Probationary',
+        'Contractual',
+        'Resigned',
+        'Terminated'
+    ) NOT NULL
+);
+
+INSERT INTO status (status_name)
+VALUES
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Regular'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Probationary'),
+('Probationary');
+SELECT * FROM status;
+
 CREATE TABLE employee (
-    employee_id INT PRIMARY KEY,
+    employee_id INT PRIMARY KEY AUTO_INCREMENT,
     supervisor_id INT NULL,
     department_id INT,
     pay_period_id INT,
@@ -217,6 +281,7 @@ CREATE TABLE employee (
     position_id INT,
     address_id INT,
     government_info_id INT,
+    status_id INT,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     
@@ -250,45 +315,51 @@ CREATE TABLE employee (
     
     CONSTRAINT fk_employee_government_info
     FOREIGN KEY (government_info_id)
-    REFERENCES government_info(government_info_id)
-);
+    REFERENCES government_info(government_info_id),
+    
+    CONSTRAINT fk_employee_status
+    FOREIGN KEY (status_id)
+    REFERENCES status(status_id)
+) AUTO_INCREMENT = 10001;
 
-INSERT INTO employee (employee_id, supervisor_id, department_id, pay_period_id, benefit_type_id, role_id, position_id, address_id, government_info_id, first_name, last_name)
-VALUES	(10001, NULL, 1, 1, 1, 1, 1, 1, 1, 'Manuel III', 'Garcia'),
-		(10002, 10001, 2, 1, 1, 2, 6, 2, 2, 'Antonio', 'Lim'),
-		(10003, 10001, 3, 1, 1, 2, 9, 3, 3, 'Bianca Sofia', 'Aquino'),
-		(10004, 10002, 2, 1, 2, 3, 7, 4, 4, 'Isabella', 'Reyes'),
-		(10005, 10001, 4, 1, 2, 3, 5, 5, 5, 'Eduard', 'Hernandez'),
-		(10006, 10002, 2, 1, 3, 3, 8, 6, 6, 'Andrea Mae', 'Villanueva'),
-		(10007, 10003, 3, 1, 1, 3, 11, 7, 7, 'Brad', 'San Jose'),
-		(10008, 10001, 5, 1, 2, 3, 16, 8, 8, 'Alice', 'Romualdez'),
-		(10009, 10008, 5, 1, 1, 3, 18, 9, 9, 'Rosie', 'Atienza'),
-		(10010, 10003, 3, 1, 3, 3, 12, 10, 10, 'Roderick', 'Alvaro'),
-		(10011, 10001, 6, 1, 2, 3, 17, 11, 11, 'Anthony', 'Salcedo'),
-		(10012, 10002, 2, 1, 1, 3, 7, 12, 12, 'Josie', 'Lopez'),
-		(10013, 10003, 3, 1, 2, 3, 13, 13, 13, 'Martha', 'Farala'),
-		(10014, 10001, 1, 1, 3, 2, 2, 14, 14, 'Leila', 'Martinez'),
-		(10015, 10002, 3, 1, 1, 2, 13, 15, 15, 'Fredrick', 'Romualdez'),
-		(10016, 10001, 3, 1, 2, 3, 10, 16, 16, 'Christian', 'Mata'),
-		(10017, 10008, 5, 1, 1, 3, 16, 17, 17, 'Selena', 'De Leon'),
-		(10018, 10003, 3, 1, 3, 3, 14, 18, 18, 'Allison', 'San Jose'),
-		(10019, 10001, 4, 1, 1, 3, 5, 19, 19, 'Cydney', 'Rosario'),
-		(10020, 10001, 3, 1, 2, 3, 15, 20, 20, 'Mark', 'Bautista'),
-		(10021, 10002, 2, 1, 1, 3, 8, 21, 21, 'Darlene', 'Lazaro'),
-		(10022, 10003, 3, 1, 3, 3, 11, 22, 22, 'Kolby', 'Delos Santos'),
-		(10023, 10001, 1, 1, 2, 2, 1, 23, 23, 'Vella', 'Santos'),
-		(10024, 10008, 5, 1, 1, 3, 18, 24, 24, 'Tomas', 'Del Rosario'),
-		(10025, 10002, 2, 1, 2, 3, 6, 25, 25, 'Jacklyn', 'Tolentino'),
-		(10026, 10003, 3, 1, 1, 3, 12, 26, 26, 'Percival', 'Gutierrez'),
-		(10027, 10001, 4, 1, 3, 3, 5, 27, 27, 'Garfield', 'Manalaysay'),
-		(10028, 10001, 5, 1, 1, 3, 17, 28, 28, 'Lizeth', 'Villegas'),
-		(10029, 10003, 3, 1, 2, 3, 13, 29, 29, 'Carol', 'Ramos'),
-		(10030, 10002, 2, 1, 1, 3, 7, 30, 30, 'Emelia', 'Maceda'),
-		(10031, 10001, 1, 1, 3, 2, 2, 31, 31, 'Delia', 'Aguilar'),
-		(10032, 10008, 5, 1, 2, 3, 16, 32, 32, 'John Rafael', 'Castro'),
-		(10033, 10003, 3, 1, 1, 3, 10, 33, 33, 'Carlos Ian', 'Martinez'),
-		(10034, 10001, 6, 1, 2, 3, 17, 34, 34, 'Beatriz', 'Santos');
+INSERT INTO employee (supervisor_id, department_id, pay_period_id, benefit_type_id, role_id, position_id, address_id, government_info_id, status_id, first_name, last_name)
+VALUES	(NULL, 1, 1, 1, 1, 1, 1, 1, 1, 'Manuel III', 'Garcia'),
+		(10001, 2, 1, 1, 2, 6, 2, 2, 2, 'Antonio', 'Lim'),
+		(10001, 3, 1, 1, 2, 9, 3, 3, 3, 'Bianca Sofia', 'Aquino'),
+		(10002, 2, 1, 2, 3, 7, 4, 4, 4, 'Isabella', 'Reyes'),
+		(10001, 4, 1, 2, 3, 5, 5, 5, 5, 'Eduard', 'Hernandez'),
+		(10002, 2, 1, 3, 3, 8, 6, 6, 6, 'Andrea Mae', 'Villanueva'),
+		(10003, 3, 1, 1, 3, 11, 7, 7, 7, 'Brad', 'San Jose'),
+		(10001, 5, 1, 2, 3, 16, 8, 8, 8, 'Alice', 'Romualdez'),
+		(10008, 5, 1, 1, 3, 18, 9, 9, 9, 'Rosie', 'Atienza'),
+		(10003, 3, 1, 3, 3, 12, 10, 10, 10, 'Roderick', 'Alvaro'),
+		(10001, 6, 1, 2, 3, 17, 11, 11, 11, 'Anthony', 'Salcedo'),
+		(10002, 2, 1, 1, 3, 7, 12, 12, 12, 'Josie', 'Lopez'),
+		(10003, 3, 1, 2, 3, 13, 13, 13, 13, 'Martha', 'Farala'),
+		(10001, 1, 1, 3, 2, 2, 14, 14, 14, 'Leila', 'Martinez'),
+		(10002, 3, 1, 1, 2, 13, 15, 15, 15, 'Fredrick', 'Romualdez'),
+		(10001, 3, 1, 2, 3, 10, 16, 16, 16, 'Christian', 'Mata'),
+		(10008, 5, 1, 1, 3, 16, 17, 17, 17, 'Selena', 'De Leon'),
+		(10003, 3, 1, 3, 3, 14, 18, 18, 18, 'Allison', 'San Jose'),
+		(10001, 4, 1, 1, 3, 5, 19, 19, 19, 'Cydney', 'Rosario'),
+		(10001, 3, 1, 2, 3, 15, 20, 20, 20, 'Mark', 'Bautista'),
+		(10002, 2, 1, 1, 3, 8, 21, 21, 21, 'Darlene', 'Lazaro'),
+		(10003, 3, 1, 3, 3, 11, 22, 22, 22, 'Kolby', 'Delos Santos'),
+		(10001, 1, 1, 2, 2, 1, 23, 23, 23, 'Vella', 'Santos'),
+		(10008, 5, 1, 1, 3, 18, 24, 24, 24, 'Tomas', 'Del Rosario'),
+		(10002, 2, 1, 2, 3, 6, 25, 25, 25, 'Jacklyn', 'Tolentino'),
+		(10003, 3, 1, 1, 3, 12, 26, 26, 26, 'Percival', 'Gutierrez'),
+		(10001, 4, 1, 3, 3, 5, 27, 27, 27, 'Garfield', 'Manalaysay'),
+		(10001, 5, 1, 1, 3, 17, 28, 28, 28, 'Lizeth', 'Villegas'),
+		(10003, 3, 1, 2, 3, 13, 29, 29, 29, 'Carol', 'Ramos'),
+		(10002, 2, 1, 1, 3, 7, 30, 30, 30, 'Emelia', 'Maceda'),
+		(10001, 1, 1, 3, 2, 2, 31, 31, 31, 'Delia', 'Aguilar'),
+		(10008, 5, 1, 2, 3, 16, 32, 32, 32, 'John Rafael', 'Castro'),
+		(10003, 3, 1, 1, 3, 10, 33, 33, 33, 'Carlos Ian', 'Martinez'),
+		(10001, 6, 1, 2, 3, 17, 34, 34, 34, 'Beatriz', 'Santos');
 SELECT * FROM employee;
+
+
 
 CREATE TABLE attendance (
 attendance_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -519,27 +590,6 @@ VALUES
 
 SELECT * FROM payroll;
 
-CREATE TABLE status (
-    status_id INT AUTO_INCREMENT PRIMARY KEY,
-    employee_id INT,
-    status_name ENUM (
-        'Regular',
-        'Probationary',
-        'Contractual',
-        'Resigned',
-        'Terminated'
-    ) NOT NULL,
-
-    CONSTRAINT fk_status_employee
-        FOREIGN KEY (employee_id)
-        REFERENCES employee(employee_id)
-);
-INSERT INTO status (employee_id, status_name)
-VALUES
-(10001, 'Regular'),
-(10002, 'Regular'),
-(10015, 'Probationary');
-SELECT * FROM status;
 
 CREATE TABLE statutory (
     statutory_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -611,3 +661,25 @@ INSERT INTO role_permissions (role_id, permissions_id)
 VALUES(1,1), (2,2), (3,3);
 SELECT * FROM role_permissions;
 
+DELIMITER $$
+
+CREATE TRIGGER `prevent_id_gaps_employee`
+BEFORE INSERT ON `employee`
+FOR EACH ROW
+BEGIN
+    DECLARE next_expected_id INT;
+
+    -- 1. Find the current highest ID in the table. 
+    -- If the table is empty, the next ID should be 1.
+    SELECT COALESCE(MAX(`employee_id`), 0) + 1 
+    INTO next_expected_id 
+    FROM `employee`;
+
+    -- 2. If they provided a manual ID, check if it matches the exact next sequential number
+    IF NEW.`employee_id` IS NOT NULL AND NEW.`employee_id` != next_expected_id THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Insertion blocked: Manual ID must be exactly the next sequential number (no gaps allowed).';
+    END IF;
+END$$
+
+DELIMITER ;
