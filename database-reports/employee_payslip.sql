@@ -36,7 +36,7 @@ DROP VIEW IF EXISTS Payslip_Benefits;
 CREATE VIEW Payslip_Benefits AS
 SELECT 
     IFNULL(BENEFIT_TYPE.benefit_type, 'GRAND TOTAL') AS benefits, 
-    SUM(BENEFIT_TYPE.amount) AS amount
+    (SUM(BENEFIT_TYPE.amount/2)) AS amount
 FROM BENEFITS
 
     INNER JOIN BENEFIT_TYPE ON BENEFITS.benefit_type_id = BENEFIT_TYPE.benefit_type_id  
@@ -52,10 +52,36 @@ WITH PayrollCalculations AS (
         (CEIL(POSITION.hourly_rate * 8 * 21)) AS MonthlySalary,
         -- SSS Bracket Calculation
         CASE 
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (19750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < 20250 THEN (1000 / 2)
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (20250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < 20750 THEN (1025 / 2)
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (24750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < 25250 THEN (1250 / 2)
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (29750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < 30250 THEN (1500 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (19750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (20250 / 2) THEN (1000 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (20250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (20750 / 2) THEN (1025 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (20750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (21250 / 2) THEN (1050 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (21250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (21750 / 2) THEN (1075 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (21750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (22250 / 2) THEN (1100 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (22250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (22750 / 2) THEN (1125 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (22750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (23250 / 2) THEN (1150 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (23250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (23750 / 2) THEN (1175 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (23750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (24250 / 2) THEN (1200 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (24250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (24750 / 2) THEN (1225 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (24750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (25250 / 2) THEN (1250 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (25250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (25750 / 2) THEN (1275 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (25750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (26250 / 2) THEN (1300 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (26250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (26750 / 2) THEN (1325 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (26750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (27250 / 2) THEN (1350 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (27250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (27750 / 2) THEN (1375 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (27750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (28250 / 2) THEN (1400 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (28250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (28750 / 2) THEN (1425 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (28750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (29250 / 2) THEN (1450 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (29250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (29750 / 2) THEN (1475 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (29750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (30250 / 2) THEN (1500 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (30250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (30750 / 2) THEN (1525 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (30750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (31250 / 2) THEN (1550 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (31250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (31750 / 2) THEN (1575 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (31750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (32250 / 2) THEN (1600 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (32250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (32750 / 2) THEN (1625 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (32750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (33250 / 2) THEN (1650 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (33250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (33750 / 2) THEN (1675 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (33750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (34250 / 2) THEN (1700 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (34250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (34750 / 2) THEN (1725 / 2)
             WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (34750 / 2) THEN (1750 / 2)
             ELSE 0
         END AS SSS,
@@ -132,11 +158,37 @@ WITH PayrollCalculations AS (
         (CEIL(POSITION.hourly_rate * 8 * 21)) AS MonthlySalary,
         -- SSS Bracket Calculation
         CASE 
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) >= (19750/2) AND (CEIL(POSITION.hourly_rate * 8 * 21)/2) < 20250 THEN (1000/2)
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) >= (20250/2) AND (CEIL(POSITION.hourly_rate * 8 * 21)/2) < 20750 THEN (1025/2)
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) >= (24750/2) AND (CEIL(POSITION.hourly_rate * 8 * 21)/2) < 25250 THEN (1250/2)
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) >= (29750/2) AND (CEIL(POSITION.hourly_rate * 8 * 21)/2) < 30250 THEN (1500/2)
-            WHEN (CEIL(POSITION.hourly_rate * 8 * 21)/2) >= (34750/2) THEN (1750/2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (19750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (20250 / 2) THEN (1000 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (20250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (20750 / 2) THEN (1025 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (20750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (21250 / 2) THEN (1050 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (21250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (21750 / 2) THEN (1075 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (21750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (22250 / 2) THEN (1100 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (22250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (22750 / 2) THEN (1125 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (22750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (23250 / 2) THEN (1150 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (23250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (23750 / 2) THEN (1175 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (23750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (24250 / 2) THEN (1200 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (24250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (24750 / 2) THEN (1225 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (24750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (25250 / 2) THEN (1250 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (25250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (25750 / 2) THEN (1275 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (25750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (26250 / 2) THEN (1300 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (26250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (26750 / 2) THEN (1325 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (26750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (27250 / 2) THEN (1350 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (27250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (27750 / 2) THEN (1375 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (27750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (28250 / 2) THEN (1400 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (28250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (28750 / 2) THEN (1425 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (28750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (29250 / 2) THEN (1450 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (29250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (29750 / 2) THEN (1475 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (29750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (30250 / 2) THEN (1500 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (30250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (30750 / 2) THEN (1525 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (30750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (31250 / 2) THEN (1550 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (31250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (31750 / 2) THEN (1575 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (31750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (32250 / 2) THEN (1600 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (32250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (32750 / 2) THEN (1625 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (32750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (33250 / 2) THEN (1650 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (33250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (33750 / 2) THEN (1675 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (33750 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (34250 / 2) THEN (1700 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (34250 / 2) AND (CEIL(POSITION.hourly_rate * 8 * 21) / 2) < (34750 / 2) THEN (1725 / 2)
+            WHEN (CEIL(POSITION.hourly_rate * 8 * 21) / 2) >= (34750 / 2) THEN (1750 / 2)
             ELSE 0
         END AS SSS,
         
@@ -198,7 +250,7 @@ Deductions AS (
 BenefitsSummary AS (
 	SELECT 
 		IFNULL(BENEFIT_TYPE.benefit_type, 'GRAND TOTAL') AS benefitsLabel, 
-		SUM(BENEFIT_TYPE.amount) AS totalBenefits
+		SUM(BENEFIT_TYPE.amount/2) AS totalBenefits
 	FROM BENEFITS
 	INNER JOIN BENEFIT_TYPE ON BENEFITS.benefit_type_id = BENEFIT_TYPE.benefit_type_id  
 	WHERE BENEFITS.employee_id = 10015
@@ -214,7 +266,7 @@ Summary AS (
 	INNER JOIN ATTENDANCE ON EMPLOYEE.employee_id = ATTENDANCE.employee_id
 	INNER JOIN PAY_PERIOD ON EMPLOYEE.pay_period_id = PAY_PERIOD.pay_period_id
 	WHERE ATTENDANCE.date BETWEEN PAY_PERIOD.period_start AND PAY_PERIOD.period_end
-	  AND EMPLOYEE.employee_id = 10015
+	AND EMPLOYEE.employee_id = 10015
 	GROUP BY EMPLOYEE.employee_id, POSITION.hourly_rate
 )
 

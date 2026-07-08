@@ -11,6 +11,7 @@ SELECT
     CONCAT(employee.last_name, ', ', employee.first_name) AS EmployeeName,
     position.position_name AS Position,
     department.department_name AS Department,
+    summary.hourlyRate,
     summary.GrossIncome,
     government_info.sss_number,
     deductions.SSS,
@@ -45,7 +46,8 @@ INNER JOIN DEPARTMENT department
 INNER JOIN (
     SELECT
         employee.employee_id,
-        CEIL(position.hourly_rate * 8 * 21) AS GrossIncome
+        ROUND(position.hourly_rate, 2) AS hourlyRate,
+        ROUND(position.hourly_rate * 8 * 21) AS GrossIncome
     FROM employee
     JOIN position ON employee.position_id = position.position_id
 ) summary 
@@ -81,10 +83,36 @@ INNER JOIN (
             EMPLOYEE.employee_id,
             (CEIL(POSITION.hourly_rate * 8 * 21)) AS MonthlySalary,
             CASE 
-                WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 19750 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 20250 THEN 1000
-                WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 20250 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 20750 THEN 1025
-                WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 24750 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 25250 THEN 1250
-                WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 29750 AND (CEIL(POSITION.hourly_rate * 8 * 21)) < 30250 THEN 1500
+                WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 19750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 20250 THEN 1000
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 20250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 20750 THEN 1025
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 20750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 21250 THEN 1050
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 21250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 21750 THEN 1075
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 21750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 22250 THEN 1100
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 22250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 22750 THEN 1125
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 22750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 23250 THEN 1150
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 23250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 23750 THEN 1175
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 23750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 24250 THEN 1200
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 24250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 24750 THEN 1225
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 24750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 25250 THEN 1250
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 25250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 25750 THEN 1275
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 25750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 26250 THEN 1300
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 26250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 26750 THEN 1325
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 26750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 27250 THEN 1350
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 27250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 27750 THEN 1375
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 27750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 28250 THEN 1400
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 28250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 28750 THEN 1425
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 28750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 29250 THEN 1450
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 29250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 29750 THEN 1475
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 29750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 30250 THEN 1500
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 30250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 30750 THEN 1525
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 30750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 31250 THEN 1550
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 31250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 31750 THEN 1575
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 31750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 32250 THEN 1600
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 32250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 32750 THEN 1625
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 32750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 33250 THEN 1650
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 33250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 33750 THEN 1675
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 33750 AND CEIL(POSITION.hourly_rate * 8 * 21) < 34250 THEN 1700
+				WHEN CEIL(POSITION.hourly_rate * 8 * 21) >= 34250 AND CEIL(POSITION.hourly_rate * 8 * 21) < 34750 THEN 1725
                 WHEN (CEIL(POSITION.hourly_rate * 8 * 21)) >= 34750 THEN 1750
                 ELSE 0
             END AS SSS,

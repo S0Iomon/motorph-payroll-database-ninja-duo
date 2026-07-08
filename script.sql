@@ -37,7 +37,10 @@ VALUES	(1, 'Chief Executive Officer', '', 535.71),
         (3, 'Payroll Rank and File', '', 142.86),
         (3, 'Account Manager', '', 318.45),
         (3, 'Account Team Leader', '', 255.80),
-        (3, 'Account Rank and File', '', 133.93),
+        (3, 'Account Rank and File (1)', '', 133.93),
+        (3, 'Account Rank and File (2)', '', 138.39),
+        (3, 'Account Rank and File (3)', '', 142.86),
+        (3, 'Account Rank and File (4)', '', 147.32),
         (5, 'Sales & Marketing', '', 313.51),
         (6, 'Supply Chain and Logistics', '', 313.51),
         (5, 'Customer Service and Relations', '', 313.51),
@@ -325,40 +328,68 @@ CREATE TABLE employee (
 ) AUTO_INCREMENT = 10001;
 
 INSERT INTO employee (supervisor_id, department_id, pay_period_id, benefit_type_id, role_id, position_id, address_id, government_info_id, status_id, first_name, last_name)
-VALUES	(NULL, 1, 1, 1, 1, 1, 1, 1, 1, 'Manuel III', 'Garcia'),
-		(10001, 2, 1, 1, 2, 6, 2, 2, 2, 'Antonio', 'Lim'),
-		(10001, 3, 1, 1, 2, 9, 3, 3, 3, 'Bianca Sofia', 'Aquino'),
-		(10002, 2, 1, 2, 3, 7, 4, 4, 4, 'Isabella', 'Reyes'),
+VALUES	
+		-- CEO
+        (NULL, 1, 1, 1, 1, 1, 1, 1, 1, 'Manuel III', 'Garcia'), 
+		-- COO
+		(10001, 2, 1, 1, 2, 2, 2, 2, 2, 'Antonio', 'Lim'),
+        -- CFO
+		(10001, 3, 1, 1, 2, 3, 3, 3, 3, 'Bianca Sofia', 'Aquino'),
+        -- CMO
+		(10002, 2, 1, 2, 3, 4, 4, 4, 4, 'Isabella', 'Reyes'),
+        -- IT OP & SYS
 		(10001, 4, 1, 2, 3, 5, 5, 5, 5, 'Eduard', 'Hernandez'),
-		(10002, 2, 1, 3, 3, 8, 6, 6, 6, 'Andrea Mae', 'Villanueva'),
-		(10003, 3, 1, 1, 3, 11, 7, 7, 7, 'Brad', 'San Jose'),
-		(10001, 5, 1, 2, 3, 16, 8, 8, 8, 'Alice', 'Romualdez'),
-		(10008, 5, 1, 1, 3, 18, 9, 9, 9, 'Rosie', 'Atienza'),
-		(10003, 3, 1, 3, 3, 12, 10, 10, 10, 'Roderick', 'Alvaro'),
-		(10001, 6, 1, 2, 3, 17, 11, 11, 11, 'Anthony', 'Salcedo'),
-		(10002, 2, 1, 1, 3, 7, 12, 12, 12, 'Josie', 'Lopez'),
-		(10003, 3, 1, 2, 3, 13, 13, 13, 13, 'Martha', 'Farala'),
-		(10001, 1, 1, 3, 2, 2, 14, 14, 14, 'Leila', 'Martinez'),
+        -- HR MNGR
+		(10002, 2, 1, 3, 3, 6, 6, 6, 6, 'Andrea Mae', 'Villanueva'),
+        -- HR LEAD
+		(10003, 3, 1, 1, 3, 7, 7, 7, 7, 'Brad', 'San Jose'),
+		-- HR R&F
+        (10001, 5, 1, 2, 3, 8, 8, 8, 8, 'Alice', 'Romualdez'),
+		(10008, 5, 1, 1, 3, 8, 9, 9, 9, 'Rosie', 'Atienza'),
+        -- ACC HEAD
+		(10003, 3, 1, 3, 3, 9, 10, 10, 10, 'Roderick', 'Alvaro'),
+        -- PR MNGR
+		(10001, 6, 1, 2, 3, 10, 11, 11, 11, 'Anthony', 'Salcedo'),
+        -- PR LEAD
+		(10002, 2, 1, 1, 3, 11, 12, 12, 12, 'Josie', 'Lopez'),
+        -- PR R&F
+		(10003, 3, 1, 2, 3, 12, 13, 13, 13, 'Martha', 'Farala'),
+		(10001, 1, 1, 3, 2, 12, 14, 14, 14, 'Leila', 'Martinez'),
+        -- ACC MNGR
 		(10002, 3, 1, 1, 2, 13, 15, 15, 15, 'Fredrick', 'Romualdez'),
-		(10001, 3, 1, 2, 3, 10, 16, 16, 16, 'Christian', 'Mata'),
-		(10008, 5, 1, 1, 3, 16, 17, 17, 17, 'Selena', 'De Leon'),
-		(10003, 3, 1, 3, 3, 14, 18, 18, 18, 'Allison', 'San Jose'),
-		(10001, 4, 1, 1, 3, 5, 19, 19, 19, 'Cydney', 'Rosario'),
-		(10001, 3, 1, 2, 3, 15, 20, 20, 20, 'Mark', 'Bautista'),
-		(10002, 2, 1, 1, 3, 8, 21, 21, 21, 'Darlene', 'Lazaro'),
-		(10003, 3, 1, 3, 3, 11, 22, 22, 22, 'Kolby', 'Delos Santos'),
-		(10001, 1, 1, 2, 2, 1, 23, 23, 23, 'Vella', 'Santos'),
-		(10008, 5, 1, 1, 3, 18, 24, 24, 24, 'Tomas', 'Del Rosario'),
-		(10002, 2, 1, 2, 3, 6, 25, 25, 25, 'Jacklyn', 'Tolentino'),
-		(10003, 3, 1, 1, 3, 12, 26, 26, 26, 'Percival', 'Gutierrez'),
-		(10001, 4, 1, 3, 3, 5, 27, 27, 27, 'Garfield', 'Manalaysay'),
+        -- ACC LEAD
+		(10001, 3, 1, 2, 3, 14, 16, 16, 16, 'Christian', 'Mata'),
+        (10008, 5, 1, 1, 3, 14, 17, 17, 17, 'Selena', 'De Leon'),
+        -- ACC R&F
+        -- (1)
+		(10003, 3, 1, 3, 3, 15, 18, 18, 18, 'Allison', 'San Jose'),
+		(10001, 4, 1, 1, 3, 15, 19, 19, 19, 'Cydney', 'Rosario'),
+        -- (2)
+		(10001, 3, 1, 2, 3, 16, 20, 20, 20, 'Mark', 'Bautista'),
+		(10002, 2, 1, 1, 3, 16, 21, 21, 21, 'Darlene', 'Lazaro'),
+        -- (3)
+		(10003, 3, 1, 3, 3, 17, 22, 22, 22, 'Kolby', 'Delos Santos'),
+        -- (1)
+		(10001, 1, 1, 2, 2, 15, 23, 23, 23, 'Vella', 'Santos'),
+		(10008, 5, 1, 1, 3, 15, 24, 24, 24, 'Tomas', 'Del Rosario'),
+        -- (3)
+		(10002, 2, 1, 2, 3, 17, 25, 25, 25, 'Jacklyn', 'Tolentino'),
+        -- (4)
+		(10003, 3, 1, 1, 3, 18, 26, 26, 26, 'Percival', 'Gutierrez'),
+		(10001, 4, 1, 3, 3, 18, 27, 27, 27, 'Garfield', 'Manalaysay'),
+        -- (3)
 		(10001, 5, 1, 1, 3, 17, 28, 28, 28, 'Lizeth', 'Villegas'),
-		(10003, 3, 1, 2, 3, 13, 29, 29, 29, 'Carol', 'Ramos'),
-		(10002, 2, 1, 1, 3, 7, 30, 30, 30, 'Emelia', 'Maceda'),
-		(10001, 1, 1, 3, 2, 2, 31, 31, 31, 'Delia', 'Aguilar'),
-		(10008, 5, 1, 2, 3, 16, 32, 32, 32, 'John Rafael', 'Castro'),
-		(10003, 3, 1, 1, 3, 10, 33, 33, 33, 'Carlos Ian', 'Martinez'),
-		(10001, 6, 1, 2, 3, 17, 34, 34, 34, 'Beatriz', 'Santos');
+        -- (1)
+		(10003, 3, 1, 2, 3, 15, 29, 29, 29, 'Carol', 'Ramos'),
+		(10002, 2, 1, 1, 3, 15, 30, 30, 30, 'Emelia', 'Maceda'),
+        (10001, 1, 1, 3, 2, 15, 31, 31, 31, 'Delia', 'Aguilar'),
+        
+        -- S&M
+		(10008, 5, 1, 2, 3, 19, 32, 32, 32, 'John Rafael', 'Castro'),
+        -- SC&L
+		(10003, 3, 1, 1, 3, 20, 33, 33, 33, 'Carlos Ian', 'Martinez'),
+        -- CS&R
+		(10001, 6, 1, 2, 3, 21, 34, 34, 34, 'Beatriz', 'Santos');
 SELECT * FROM employee;
 
 
