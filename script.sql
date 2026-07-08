@@ -165,7 +165,9 @@ VALUES
 ('Ayala Avenue 1200', '', 'Makati City', 'Metro Manila', '', 0),
 ('', '', '', '', '', 0),
 ('', '', '', '', '', 0),
-('Unit 2802 One San Miguel Bldg', 'Shaw Blvd Cor San Miguel Ave', 'Ortigas Ctr 1605', 'Pasig City','',0);
+('Unit 2802 One San Miguel Bldg', 'Shaw Blvd Cor San Miguel Ave', 'Ortigas Ctr 1605', 'Pasig City','', 0),
+('8435 West Service Road', 'Marcelo Green Village South Superhighway', 'Paranaque City', '', '',0);
+
 
 SELECT * FROM address;
 
@@ -274,14 +276,14 @@ SELECT * FROM status;
 CREATE TABLE employee (
     employee_id INT PRIMARY KEY AUTO_INCREMENT,
     supervisor_id INT NULL,
-    department_id INT,
-    pay_period_id INT,
-    benefit_type_id INT,
-    role_id INT,
-    position_id INT,
-    address_id INT,
-    government_info_id INT,
-    status_id INT,
+    department_id INT NOT NULL,
+    pay_period_id INT NOT NULL,
+    benefit_type_id INT NOT NULL,
+    role_id INT NOT NULL,
+    position_id INT NOT NULL,
+    address_id INT NOT NULL,
+    government_info_id INT NOT NULL,
+    status_id INT NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     
@@ -662,21 +664,20 @@ VALUES(1,1), (2,2), (3,3);
 SELECT * FROM role_permissions;
 
 DELIMITER $$
+DROP TRIGGER IF EXISTS `prevent_id_gaps_employee`$$
 
 CREATE TRIGGER `prevent_id_gaps_employee`
-BEFORE INSERT ON `employee`
+BEFORE INSERT ON employee
 FOR EACH ROW
 BEGIN
     DECLARE next_expected_id INT;
 
-    -- 1. Find the current highest ID in the table. 
-    -- If the table is empty, the next ID should be 1.
-    SELECT COALESCE(MAX(`employee_id`), 0) + 1 
+    SELECT COALESCE(MAX(employee_id), 0) + 1 
     INTO next_expected_id 
-    FROM `employee`;
+    FROM employee;
 
-    -- 2. If they provided a manual ID, check if it matches the exact next sequential number
-    IF NEW.`employee_id` IS NOT NULL AND NEW.`employee_id` != next_expected_id THEN
+    -- FIX: Only block if the ID isn't NULL, isn't 0, AND doesn't match the sequence
+    IF NEW.employee_id IS NOT NULL AND NEW.employee_id != 0 AND NEW.employee_id != next_expected_id THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Insertion blocked: Manual ID must be exactly the next sequential number (no gaps allowed).';
     END IF;
