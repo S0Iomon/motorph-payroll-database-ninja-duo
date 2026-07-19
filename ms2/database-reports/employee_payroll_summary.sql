@@ -1,4 +1,4 @@
-USE payrolldb_motorph;
+USE motorph_payroll;
 DROP VIEW IF EXISTS employee_payroll_summary;
 
 CREATE VIEW employee_payroll_summary AS
@@ -15,7 +15,7 @@ SELECT
     summary.GrossIncome,
     government_info.sss_number,
     deductions.SSS,
-    government_info.phil_health_number,
+    government_info.philhealth_number,
     deductions.PhilHealth,
     government_info.pag_ibig_number,
     deductions.PagIbig,

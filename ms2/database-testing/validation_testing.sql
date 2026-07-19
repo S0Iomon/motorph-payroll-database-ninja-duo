@@ -223,7 +223,7 @@ VALUES ('January Second 2026', '2026-13-45', 'Period 1');
 INSERT INTO benefit_type (benefit_type, amount) 
 VALUES ('Rice Subsidy', '[Amount: 1500]');
 
--- 8. Testing 'address' Table (Alpha Characters into INT Zip Code)
+-- 8. Testing 'address' Table (INT Zip Code into INT Zip Code)
 INSERT INTO address (building, street, barangay, city, province, zip_code) 
 VALUES ('Building A', 'Main St', 'Poblacion', 'Manila', 'Metro Manila', 'A1B 2C3');
 

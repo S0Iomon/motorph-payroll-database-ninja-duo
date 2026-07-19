@@ -1,2 +1,0 @@
-INSERT INTO employee (supervisor_id, department_id, pay_period_id, benefit_type_id, role_id, position_id, address_id, government_info_id, status_id, first_name, last_name)
-VALUES (NULL, NULL, NULL, NULL, NULL, NULL, 41, NULL, NULL, 'Ian', 'Correa');

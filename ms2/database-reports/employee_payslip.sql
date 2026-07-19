@@ -1,4 +1,4 @@
-USE payrolldb_motorph;
+USE motorph_payroll;
 
 DROP VIEW IF EXISTS Payslip_Employee_Details;
 CREATE VIEW Payslip_Employee_Details AS
